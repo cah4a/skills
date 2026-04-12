@@ -1,0 +1,10 @@
+{
+  "wiki": {
+    "command": "npx",
+    "args": ["tsx", "src/index.ts"],
+    "cwd": ".",
+    "env": {
+      "WIKI_PATH": "${PROJECT_DIR}/wiki"
+    }
+  }
+}
