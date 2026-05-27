@@ -44,21 +44,23 @@ Do this proactively when:
 - About to make a decision that might already have context
 - The user asks about project history or rationale
 
+Users can also run `/wiki:ask <question>` for an interactive answer.
+
 ## Writing to the wiki
 
-Run `/wiki` to capture insights from the current work. The command handles
-everything: creating entries, choosing the right folder, deduplicating against
-existing content.
+Run `/wiki:cognite` to capture insights from the current work. The command
+handles everything: creating entries, choosing the right folder, deduplicating
+against existing content.
 
 When you're writing an implementation plan, include as the final step:
-> Run `/wiki` to capture decisions and patterns from this work into the project wiki.
+> Run `/wiki:cognite` to capture decisions and patterns from this work into the project wiki.
 
 This ensures every planned piece of work leaves a knowledge trail.
 
 ## Entry format
 
 Read `references/entry-format.md` for the full template. Key points:
-- One file per insight, in a topical subfolder (`architecture/`, `decisions/`, etc.)
+- One file per insight, in a topical subfolder — folders are created dynamically based on project needs
 - YAML frontmatter with title, tags, date, source
 - Body focuses on the **why**, not the **what**
 

@@ -4,17 +4,14 @@ Each wiki entry is a markdown file in a topical subfolder under `wiki/`.
 
 ## Folder structure
 
-Place entries in the folder that best matches their nature:
+Organize entries into topical folders that make sense for your project. Create folders as needed — there's no fixed taxonomy. The vector index searches all folders regardless of structure.
 
-| Folder | What goes here |
-|---|---|
-| `architecture/` | System design, component relationships, infrastructure choices |
-| `decisions/` | Specific choices with rationale — "we chose X because Y" |
-| `features/` | Feature descriptions, requirements, implementation approach |
-| `patterns/` | Code patterns, conventions, recurring approaches |
-| `ideas/` | Future work, proposals not yet implemented, exploratory thoughts |
+Common patterns:
+- Group by domain area (`database/`, `auth/`, `billing/`)
+- Group by type (`decisions/`, `patterns/`, `ideas/`)
+- Group by feature (`search/`, `notifications/`, `onboarding/`)
 
-Create new folders if none of the above fit. The vector index searches all folders.
+Look at existing folders before creating new ones. Use the simplest structure that keeps things findable. If a folder grows unwieldy, split it. If two folders overlap, merge them.
 
 ## File naming
 

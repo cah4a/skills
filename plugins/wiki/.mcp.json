@@ -1,10 +1,6 @@
 {
   "wiki": {
-    "command": "npx",
-    "args": ["tsx", "src/index.ts"],
-    "cwd": ".",
-    "env": {
-      "WIKI_PATH": "${PROJECT_DIR}/wiki"
-    }
+    "command": "${CLAUDE_PLUGIN_ROOT}/node_modules/.bin/tsx",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/src/index.ts"]
   }
 }

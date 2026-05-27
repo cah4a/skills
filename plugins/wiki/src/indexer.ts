@@ -110,7 +110,7 @@ export async function scanWikiFiles(wikiDir: string): Promise<ScannedFile[]> {
         if (name.startsWith(".")) continue;
         const subRelative = relativeBase ? `${relativeBase}/${name}` : name;
         await walk(path.join(dir, name), subRelative);
-      } else if (entry.isFile() && name.endsWith(".md") && name !== "README.md") {
+      } else if (entry.isFile() && name.endsWith(".md") && name !== "README.md" && name !== "GUIDE.md") {
         const absolutePath = path.join(dir, name);
         const relativePath = relativeBase ? `${relativeBase}/${name}` : name;
         const stat = await fs.stat(absolutePath);

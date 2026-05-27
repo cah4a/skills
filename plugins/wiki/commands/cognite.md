@@ -3,35 +3,17 @@ description: "Capture project knowledge — decisions, patterns, insights — in
 argument-hint: "[natural language: 'commits since friday', 'sessions', 'latest', or blank for current work]"
 ---
 
-You are running the /wiki command. The user's arguments: $ARGUMENTS
+You are running the /wiki:cognite command. The user's arguments: $ARGUMENTS
+
+## Gate: wiki must exist
+
+If there is no `wiki/` directory in the project root, tell the user:
+"No wiki found. Run `/wiki:init` to set one up first."
+Then stop.
 
 ## Your task
 
-Capture decisions, patterns, and architectural insights into the project wiki at `wiki/`.
-
-## First: check if wiki exists
-
-If there is no `wiki/` directory in the project root, this is the first run:
-
-1. Create the wiki structure:
-   ```
-   wiki/
-   ├── README.md
-   ├── architecture/
-   ├── decisions/
-   ├── features/
-   ├── patterns/
-   └── ideas/
-   ```
-2. Write `wiki/README.md` explaining what the wiki is (a short paragraph for human readers).
-3. Add `wiki/.index.json` to `.gitignore` (append, don't overwrite).
-4. Tell the user: "Wiki initialized. How should I populate it?"
-   - **commits** — scan git history (ask how far back, or accept their specification)
-   - **overall** — scan the current codebase and docs to extract project state
-   - **skip** — leave empty, populate manually
-5. Run the chosen mode.
-
-If the wiki already exists, proceed based on the arguments.
+Extract decisions, patterns, and architectural insights and write them to the project wiki at `wiki/`.
 
 ## Interpreting arguments
 
@@ -61,7 +43,6 @@ The user gives natural language instructions. Figure out what they mean:
 **"overall" or broad scan:**
 - Read key project files: README.md, CLAUDE.md, docs/, package.json/Cargo.toml/etc., directory structure, CI config.
 - Extract: tech stack, architecture patterns, key dependencies, established conventions.
-- This is the same as what init does for a fresh wiki — a snapshot of current state.
 
 **Branch name or ref** (e.g., "main", "feature/auth"):
 - Compute diff: `git diff <ref>...HEAD`
@@ -69,20 +50,24 @@ The user gives natural language instructions. Figure out what they mean:
 
 ## How to write entries
 
-1. **Read existing entries first.** Before proposing anything new, scan the wiki to understand what's already captured. This prevents duplicates.
+1. **Read `wiki/GUIDE.md` first.** The guide defines what's in scope, folder conventions, and style rules for this project's wiki. All entries must align with it. If the guide doesn't exist, proceed with defaults.
 
-2. **Extract insights.** From the source material (commits, code, sessions), identify durable knowledge: decisions with rationale, architectural patterns, constraints discovered, trade-offs made.
+2. **Read existing entries.** Scan the wiki to understand what's already captured. This prevents duplicates and helps you match the existing structure.
 
-3. **Propose entries to the user.** For each proposed entry, show a brief summary:
+3. **Extract insights.** From the source material (commits, code, sessions), identify durable knowledge: decisions with rationale, architectural patterns, constraints discovered, trade-offs made.
+
+4. **Choose the right folder.** Look at existing wiki folders to maintain consistency. If an existing folder fits, use it. If not, create a new one with a short, descriptive name. Don't force entries into ill-fitting folders — let the structure grow with the project.
+
+5. **Propose entries to the user.** For each proposed entry, show:
    ```
-   Proposed: decisions/postgres-over-sqlite.md
-   "We chose Postgres over SQLite for row-level locking support"
+   Proposed: <folder>/<filename>.md
+   "<title>"
    ```
    Let the user confirm, edit, or skip each one.
 
-4. **Write confirmed entries.** Use the format from `references/entry-format.md`. Place each file in the appropriate topical folder.
+6. **Write confirmed entries.** Use the format from `references/entry-format.md`.
 
-5. **After writing, confirm** what was added: list the new files with one-line summaries.
+7. **After writing, confirm** what was added: list the new files with one-line summaries.
 
 ## Deduplication
 
@@ -92,3 +77,7 @@ Before writing any entry, check existing wiki content for overlap. If an existin
 - **Create a new entry** (if the angle is genuinely different)
 
 Use your judgment — this is a content decision, not a string comparison.
+
+## Reorganizing
+
+If while writing entries you notice the folder structure no longer makes sense (e.g., too many entries in one folder, overlapping categories, folders that could be merged), suggest a reorganization to the user. Move files only with their confirmation.

@@ -1,12 +1,8 @@
+import path from "node:path";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { createWikiServer } from "./server.js";
 
-const wikiPath = process.env["WIKI_PATH"];
-
-if (!wikiPath) {
-  console.error("Error: WIKI_PATH environment variable is not set.");
-  process.exit(1);
-}
+const wikiPath = process.env["WIKI_PATH"] ?? path.join(process.cwd(), "wiki");
 
 const server = createWikiServer(wikiPath);
 const transport = new StdioServerTransport();

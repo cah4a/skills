@@ -31,8 +31,8 @@ done
 
 echo ""
 echo "### How to use"
-echo "- **Search**: Use the \`wiki_search\` MCP tool to find relevant context before making decisions."
-echo "- **Capture**: Run \`/wiki\` to save decisions and insights from the current work."
-echo "- **Plans**: When writing implementation plans, include a final step: \`Run /wiki to capture decisions from this work.\`"
+echo "- **Search**: Use the \`wiki_search\` MCP tool to find relevant context, or run \`/wiki:ask <question>\`."
+echo "- **Capture**: Run \`/wiki:cognite\` to save decisions and insights from the current work."
+echo "- **Plans**: When writing implementation plans, include a final step: \`Run /wiki:cognite to capture decisions from this work.\`"
 echo ""
 echo "Search the wiki proactively when starting work in an unfamiliar area."
