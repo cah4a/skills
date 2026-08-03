@@ -1,0 +1,15 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "cah4a-skills",
+  "description": "Personal skills and plugins",
+  "owner": {
+    "name": "cah4a"
+  },
+  "plugins": [
+    {
+      "name": "wiki",
+      "description": "Project-scoped wiki for decisions, patterns, and insights with semantic search",
+      "source": "./plugins/wiki"
+    }
+  ]
+}

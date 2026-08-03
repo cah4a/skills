@@ -8,6 +8,10 @@ Take the task and unfold it into subagent-implemented work, driving relentlessly
 
 Go one step at a time and let each finished step reveal the next — don't plan the whole thing upfront, because you can't see the far folds until the near ones land.
 
+## The map
+
+Before the first dispatch, send one read-only scout (an Explore agent) to build the map: the files the task touches, the conventions in play, the commands that build and test. Every brief carries its slice of the map — a subagent that has to rediscover the codebase was under-briefed, not diligent. When a step reports back, fold what it learned — new files, surprises, decisions made — into the map, so each step starts where the last one ended instead of at the front door.
+
 ## The hard rule
 
 If you're about to call Edit or Write on a code file, stop. That's a brief, not your hands. No exceptions for "small," "mechanical," "trivial," or "I already see the answer" — those are exactly the cases where the default to just-do-it pulls hardest, and where the rationalization to break the rule sounds most reasonable. Every line of code that ships goes through a subagent.
@@ -18,7 +22,7 @@ This only works if *you* hold a real bar for what good code is. Subagents will h
 
 Read every diff a subagent returns the way a careful senior engineer reads a PR they'll have to maintain. Judge it first for simplicity — but measure simplicity in the reader's head, not your line count: how little they must hold in mind to follow this and change it safely. Three corollaries, each cutting against an instinct of yours — **boring beats clever, local beats general, obvious beats short.** Then the rest: does it fit the patterns already here, or invent a parallel way of doing things? Could a newcomer follow it on first read? Is it surgical, or did it touch what the step didn't need?
 
-Set each subagent up to be judged: brief it tightly — the step's goal, the files it needs, nothing speculative — and have it report back not just its diff but anything it noticed: surprises, smells, choices it had to make. Then run the tests or build to prove the change *runs* — but that's all tests prove. *You* decide if it's *good*. When a step comes back below the bar, send it back with specific notes on what's wrong before you move on. That bar is the whole point; without it you're just chaining subagents and hoping.
+Set each subagent up to be judged: brief it tightly — the step's goal, its slice of the map, nothing speculative — and have it report back not just its diff but anything it noticed: surprises, smells, choices it had to make. Then run the tests or build to prove the change *runs* — but that's all tests prove. *You* decide if it's *good*. When a step comes back below the bar, send it back with specific notes on what's wrong before you move on. That bar is the whole point; without it you're just chaining subagents and hoping.
 
 ## The escape hatch
 
