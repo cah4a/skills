@@ -1,6 +1,6 @@
 ---
 name: self-grill
-description: Cold subagents grill an idea into a technical design document, unattended.
+description: Cold subagents grill an idea into a technical design document, unattended. Re-invoke with a hard decision to fold it in.
 disable-model-invocation: true
 ---
 
@@ -67,3 +67,11 @@ The point of self-grill is that the user doesn't sit through the interview, so d
 - a question three rounds have failed to move — some things don't yield to grinding.
 
 One exception to waiting: an answer that **contradicts the premise** the whole idea rests on stops the loop now. Every round after a dead premise is wasted.
+
+## Hard decisions land on top
+
+The run ends dry and you read the doc. Then you hand down a decision — *we're on Postgres, not Dynamo.* It's neither a question nor an answer, so nothing grills it and nothing grades it: it goes into the doc as a **given**, unbadged, outranking every decision already standing there. No markers, no protocol — the decision arrives as plain instruction and you do the rest.
+
+What gets grilled is the **wreckage**. Brief the interrogator to leave the given alone and hunt only what it just invalidated: every part of the design that assumed otherwise, including what went quiet three rounds ago. Those are the round's questions, and the loop runs from there as normal until it's dry again.
+
+A given that breaks nothing is a real outcome — fold it in, say the design already held, and stop. Manufacturing a round to look busy is the same padding as running past dry.

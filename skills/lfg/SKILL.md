@@ -10,7 +10,19 @@ Go one step at a time and let each finished step reveal the next — don't plan 
 
 ## The map
 
-Before the first dispatch, send one read-only scout (an Explore agent) to build the map: the files the task touches, the conventions in play, the commands that build and test. Every brief carries its slice of the map — a subagent that has to rediscover the codebase was under-briefed, not diligent. When a step reports back, fold what it learned — new files, surprises, decisions made — into the map, so each step starts where the last one ended instead of at the front door.
+Before the first dispatch, send one read-only scout (an Explore agent) to build the map: the files the task touches, the conventions in play, the commands that build and test. Record the revision you started from — the review diffs the whole run against it. Every brief carries its slice of the map — a subagent that has to rediscover the codebase was under-briefed, not diligent. When a step reports back, fold what it learned — new files, surprises, decisions made — into the map, so each step starts where the last one ended instead of at the front door.
+
+## The loop
+
+One move at a time — after each, look at what came back and pick the next.
+
+1. **Name the step** — the next one only, drawn from what the last step revealed.
+2. **Dispatch** — brief a fresh subagent: the step's goal, its slice of the map, nothing speculative. Have it report back its diff *and* what it noticed — surprises, smells, choices it was forced to make. A subagent briefed this way is a subagent you can judge.
+3. **Judge** — read the diff against the bar below, then run the build or tests to prove the change *runs*. That's all tests prove; *you* decide if it's *good*. Below the bar → back to a fresh subagent with specific notes, same step. Above it → fold what it learned into the map.
+4. **Loop** — back to 1, until the feature works.
+5. **Review** — dispatch the fit review below. Green → done. Findings → each is a step; back to 1.
+
+Done is a green flag, not a working feature.
 
 ## The hard rule
 
@@ -22,7 +34,19 @@ This only works if *you* hold a real bar for what good code is. Subagents will h
 
 Read every diff a subagent returns the way a careful senior engineer reads a PR they'll have to maintain. Judge it first for simplicity — but measure simplicity in the reader's head, not your line count: how little they must hold in mind to follow this and change it safely. Three corollaries, each cutting against an instinct of yours — **boring beats clever, local beats general, obvious beats short.** Then the rest: does it fit the patterns already here, or invent a parallel way of doing things? Could a newcomer follow it on first read? Is it surgical, or did it touch what the step didn't need?
 
-Set each subagent up to be judged: brief it tightly — the step's goal, its slice of the map, nothing speculative — and have it report back not just its diff but anything it noticed: surprises, smells, choices it had to make. Then run the tests or build to prove the change *runs* — but that's all tests prove. *You* decide if it's *good*. When a step comes back below the bar, send it back with specific notes on what's wrong before you move on. That bar is the whole point; without it you're just chaining subagents and hoping.
+## The review
+
+Every step was judged alone and passed alone — and a run of individually-fine steps still lands two money formatters and a parameter every call site passes the same value to. Whether the accumulated whole *belongs here* is a question you can't answer: you know the task too well. It needs a reader who knows the project and not the task.
+
+Dispatch a fresh subagent — never one that ran a step — and give it exactly three things:
+
+- **the cumulative diff of the run** (`git diff` against where you started) — its scope;
+- **the project** — its reference: where the diff landed, the conventions around it, and whatever the repo records about itself (`CLAUDE.md`, `CONTEXT.md`, `docs/adr/`, a wiki);
+- **the absolute path to [REVIEW.md](REVIEW.md) in this skill's directory** — its brief. Pass the path along; that file is the reviewer's context, not yours.
+
+**Withhold the task rationale** — not why the feature exists, not what you decided along the way. Knowing the reason makes a bad fit look justified, and you want the maintainer who arrives cold.
+
+It returns a green flag, or steps that each cite a path in existing code. Turn each into a step and run the loop again. Its notes — twins not worth collapsing yet — go to the user with the rest of what you surface. Two rounds is the budget: if a third still comes back with cited findings, the goal itself is suspect, so surface that instead of grinding.
 
 ## The escape hatch
 
