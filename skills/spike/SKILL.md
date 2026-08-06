@@ -20,7 +20,13 @@ If you're about to call Edit or Write on a code file, stop. That's a *route*, no
 
 ## The stack lives on disk
 
-Keep the stack in `.git/spike-stack.md`, not in your head — it must survive a compacted context and remember every dead end so you never re-walk one. (It lives under `.git/` so reverts never touch it.) Each frame holds:
+Keep the stack in `.scratch/<YYYYMMDD-HHMM>-<slug>.md`, not in your head — it must survive a compacted context and remember every dead end so you never re-walk one. Create it before the first frame:
+
+```bash
+mkdir -p .scratch && printf '*\n' > .scratch/.gitignore
+```
+
+The folder ignores itself, so the stack never reaches git and reverts never touch it. One file per task; the user deletes what they're done with. Lost the path? `ls -t .scratch/`. Each frame holds:
 
 - **hypothesis** — the approach you're testing (the THINK)
 - **checkpoint** — the snapshot id to revert to if this route loses, taken *before* the route runs (the frame's own label works)
@@ -68,4 +74,4 @@ These are forks only the user can own. Surfacing them is what keeps "explore bol
 
 ---
 
-Git mechanics, the `.git/spike-stack.md` schema, subagent brief templates, and a full worked example: see [REFERENCE.md](REFERENCE.md).
+Git mechanics, the stack file schema, subagent brief templates, and a full worked example: see [REFERENCE.md](REFERENCE.md).

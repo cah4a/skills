@@ -19,15 +19,15 @@ The file set it owns is precisely `git ls-files --cached --others --exclude-stan
 
 ### Finishing a spike
 
-When the stack is empty and the goal is met, the accepted work is **already in your working tree** as ordinary uncommitted changes. Review it and commit by hand, however you like. Then drop the scratch snapshots:
+When the stack is empty and the goal is met, the accepted work is **already in your working tree** as ordinary uncommitted changes. Review it and commit by hand, however you like. Then drop the snapshots:
 
 ```bash
 bash scripts/spike.sh clean
 ```
 
-## The stack file — `.git/spike-stack.md`
+## The stack file — `.scratch/<YYYYMMDD-HHMM>-<slug>.md`
 
-Lives under `.git/` so reverts never disturb it, and the path is deterministic across a compacted context. One section per frame; the **top of the stack is the deepest unfinished frame**.
+`.scratch/` carries a `.gitignore` of `*`, which ignores the folder and itself: nothing reaches git, and reverts leave the stack alone. One file per task — if a compaction loses the path, `ls -t .scratch/` finds it. One section per frame; the **top of the stack is the deepest unfinished frame**.
 
 ```markdown
 # spike: <one-line goal>

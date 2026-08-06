@@ -10,7 +10,17 @@ Go one step at a time and let each finished step reveal the next — don't plan 
 
 ## The map
 
-Before the first dispatch, send one read-only scout (an Explore agent) to build the map: the files the task touches, the conventions in play, the commands that build and test. Record the revision you started from — the review diffs the whole run against it. Every brief carries its slice of the map — a subagent that has to rediscover the codebase was under-briefed, not diligent. When a step reports back, fold what it learned — new files, surprises, decisions made — into the map, so each step starts where the last one ended instead of at the front door.
+Before the first dispatch, send one read-only scout (an Explore agent) to build the map: the files the task touches, the conventions in play, the commands that build and test. Record the revision you started from — the review diffs the whole run against it.
+
+The map lives on disk, in `.scratch/<YYYYMMDD-HHMM>-<slug>.md`, because your context is the thing that fills up and a compaction takes anything held only there. Create it before the scout:
+
+```bash
+mkdir -p .scratch && printf '*\n' > .scratch/.gitignore
+```
+
+The folder ignores itself, so the map never reaches git. One file per task; the user deletes what they're done with. Lost the path? `ls -t .scratch/`.
+
+Every brief carries its slice of the map — a subagent that has to rediscover the codebase was under-briefed, not diligent. When a step reports back, fold what it learned — new files, surprises, decisions made — into the file, plus a line naming the step you accepted, so each step starts where the last one ended instead of at the front door.
 
 ## The loop
 

@@ -20,7 +20,15 @@ The one part of getting there that *is* design: **how it reaches production.** W
 
 **It converges — revise in place, don't append.** Every round leaves the doc in finished shape, as if the design had always been this. Git keeps the layers; the loop never wants them, because a settled question is blocked by the decision standing there, not by a log of having asked it. Rewriting drops one thing worth keeping: an alternative you **considered and rejected** stays as a line in the section it belongs to — *rejected X, because Y* — or the loop proposes it again next round.
 
-Put it where the repo already keeps design docs — match where they live, not how they're shaped; `docs/` if it keeps none.
+The doc starts as throwaway, in `.scratch/<YYYYMMDD-HHMM>-<slug>.md`. Create it on round one:
+
+```bash
+mkdir -p .scratch && printf '*\n' > .scratch/.gitignore
+```
+
+The folder ignores itself, so nothing half-ground reaches git. One file per task; the user deletes what they're done with. Lost the path? `ls -t .scratch/`.
+
+When the grill runs dry, offer to move it — renamed to fit — where the repo already keeps design docs; match where they live, not how they're shaped, and `docs/` if it keeps none.
 
 ## The loop
 
