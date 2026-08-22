@@ -1,77 +1,84 @@
 ---
 name: self-grill
-description: Cold subagents grill an idea into a technical spec, unattended. Re-invoke with a hard decision to fold it in.
+description: Grill a task's unknowns with one cold interrogator until nothing blocks building.
 disable-model-invocation: true
 ---
 
-This conversation has already sold you on the idea, so you never write the grill's questions and never answer them —
-**cold** subagents do both. Cold means spawned fresh (never a fork) and shown nothing of the run but the spec; the repo
-is fair game.
+You've been summoned to settle users requirements to the project.
+User have intent that is considered as REQUIREMENTS.
 
-## Spec and scratch
+Your job is to resolve REQUIREMENTS with the existing project/codebase and compose THE MINIMAL DESIGN DOCUMENT.
 
-Open both on round one. They are the run's state — each round starts from the files, not your memory.
+This document must be small, terse, concise, self-contained, and resolve COMPLEX PROBLEMS only.
+It doesn't need to be a full implementation plan, states of work, or a full design doc with all details included.
+It must be enough to unblock the following work, so the requirements could be break onto task and implemented without changing the design.
+So we are not looking for PLAN, we are looking for a way moving forward.
 
-**The spec** is the answer, and the only thing subagents see. Before the loop starts, write into it the idea, its
-**stakes** — what this is, who uses it, what breaks if it's wrong — and its **non-goals** by name: a scope that lives
-only in this conversation doesn't exist for the loop.
+## PHASE 0
 
-- **As-built**: present tense, the system as if it already exists. No tasks, phases, or build order — except the path
-  to production (existing data, running consumers, what can't ship in one release), which is a permanent constraint,
-  not schedule. Grill it hardest, at the stakes the thing has.
-- **By system, never by round**: each answer dissolves into the section it bears on.
-- **Revised in place**: git keeps the layers. A rejected alternative survives as one line — *rejected X, because Y*.
-- Lives where the repo keeps design docs; `docs/` if it keeps none.
+Find all related files, functions, classes, and modules that are related to the task.
+This is a research phase to understand the current state of the codebase and how it relates to the task at hand.
+Save all the findings in a separate context map file, and make sure to include the path to each file, function, class, and module.
+Important thing is to find all this by yourself so you could answer the questions without asking the user.
 
-**The scratch** is yours alone: the idea as first stated, parked questions, **Yours to decide**. Never design — the
-settled belongs in the spec.
+Then write a first draft of the design doc that is just enough to answer the questions below.
+Just a bare minimum to illustrate "THE PROBLEM" and "THE SOLUTION" in a way that is understandable to a cold reviewer.
 
-```bash
-mkdir -p .scratch && printf '*\n' > .scratch/.gitignore
+## PHASE 1
+
+Run a cold interrogator with next question:
+
+```
+Design Doc: <design_doc_path>
+Context Map: <context_map_path>
+
+You are a cold reviewer. You have no history with this design and no stake in it.
+Read the feature design doc and the context map above. The repo itself is fair
+game — read any file you need. Do not modify anything.
+
+Your job is to find the issues that make this design WRONG or UNBUILDABLE, not
+to improve it.
+
+An issue qualifies only if getting it wrong forces reworking the feature or a
+big part of it. A detail the implementer can settle either way without breaking
+the design is NOT an issue — do not report it. Style, naming, testing strategy,
+and things listed as non-goals in the doc are not targets.
+
+Hunt in this order:
+1. Contradictions — the doc claims something about the codebase; the cited file
+   or the map says otherwise. Verify every claim in the doc that cites a
+   file:line by reading that file. Report mismatches.
+2. Collisions — the design assumes something the existing code won't allow
+   (data shape, lifecycle, ordering, concurrency, an existing consumer).
+3. Holes — a load-bearing question the doc doesn't answer: a state that can
+   occur but has no defined behavior, a migration path for existing data,
+   a failure mode with no owner.
+4. Contradictory or incomplete requirements — the doc's stated requirements
+   cannot all hold at once, or a requirement is too vague to design against.
+
+For each issue report:
+- SEVERITY:
+  - CRITICAL — requirements are contradictory or incomplete; only the user can
+    resolve it.
+  - MAJOR — wrong answer forces reworking the feature or a big part of it.
+  - MINOR — real, but cheap to change later even if decided wrong now.
+- The issue in one or two sentences.
+- What breaks if it's decided wrong (concrete: which part of the design falls).
+- Evidence: file:line if you read code, or "doc only" if not.
+
+Report at most 10 issues, worst first. One structural details. 
+Do not pad: if nothing meets the bar, return exactly "NO BLOCKING ISSUES" — that is a legitimate and useful result, not a failure.
+
+Do not report/investigate anything that is already mentioned in the design doc as a non-goal or out of scope, or anything that is explicitly called out as a known limitation or trade-off. Those are not issues.
 ```
 
-`.scratch/<YYYYMMDD-HHMM>-<slug>.md`, one file per task. Lost the path? `ls -t .scratch/`.
+# PHASE 2
 
-## The loop
+Interview user about CRITICAL findings to solve it with him using hard decision or pivot the design.
 
-One round at a time.
+For MAJOR findings run a subagent to make a sound solution that simplifies the design, reduces complexity, yet covering
+the requirements.
 
-1. **Grill** — one cold interrogator reads the spec and attacks inside its scope: the questions whose answers would
-   *change the design*, ranked by how much, **five at most**. Non-goals are not targets. Copy parked questions into its
-   brief. Brief it that coming back empty is a legitimate return — that's the exit signal.
-2. **Answer** — one cold subagent per question, in parallel, each getting only the question and the spec. It reads the
-   code and commits to a **verdict**: one recommendation, argued — a menu is a refusal. It answers; it doesn't build.
-   With the verdict, an honest confidence and **the one check that would raise it a tier**:
-   - **High** — verified: read the code, ran it, or a primary source. Cite which.
-   - **Medium** — inferred from real evidence; this exact case unchecked.
-   - **Low** — priors, no receipts.
-3. **Fold** — you are the only writer. Rewrite spec and scratch before the next round; an answer left in your context
-   is gone at compaction.
-4. **Repeat** with a fresh interrogator.
+For every MINOR finding, make a note in the design doc and move on.
 
-**Dry** is the interrogator returning empty — its verdict, not yours: answer a round's questions or park them, never
-dismiss them. Dry means ready to build, not nothing left to learn; rounds past dry pad the design, and a grill not dry
-by **round six** has stopped converging — stop, hand what's still moving to **Yours to decide**.
-
-## Where each answer goes
-
-- **Past the stakes** → non-goals as a line, *not doing X, because Y*, plus **Yours to decide** — scope you set, the
-  user ratifies.
-- **High** → the spec, plain and unmarked.
-- **Medium** → the spec, flagged, carrying its check. Flag the exceptions only — uniform confidence launders guesses.
-- **Low** → parked; re-ask next round decomposed, or re-briefed to verify rather than think. Two rounds stuck → **Open
-  questions** in the spec. So does anything building settles faster than asking — does the API feel right, does the
-  perf hold; neither blocks dry.
-
-## Yours to decide
-
-Collect in the scratch, raise at dry — never one question at a time: preferences no code-reading settles, real
-tradeoffs where both answers hold, questions three rounds haven't moved. One exception: an answer that contradicts the
-premise stops the loop now.
-
-## Hard decisions land on top
-
-After dry the user reads the spec and may re-invoke with a decision — *we're on Postgres, not Dynamo.* It enters the
-spec as a **given**: unbadged, ungrilled, outranking everything standing. Brief the next interrogator to leave it alone
-and hunt only the **wreckage** — every part of the design that assumed otherwise — then run to dry as normal. A given
-that breaks nothing is a real outcome: fold it, say the design held, stop.
+Don't rerun the loop, we are still investigating how this skill is working.
