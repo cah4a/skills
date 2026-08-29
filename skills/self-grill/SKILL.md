@@ -18,7 +18,8 @@ So we are not looking for PLAN, we are looking for a way moving forward.
 
 Find all related files, functions, classes, and modules that are related to the task.
 This is a research phase to understand the current state of the codebase and how it relates to the task at hand.
-Save all the findings in a separate context map file, and make sure to include the path to each file, function, class, and module.
+Save all the findings to `.scratch/context-map.md`, and make sure to include the path to each file, function, class, and module.
+This file is orientation for the cold reviewer and is valid only for this run: if it already exists, it was built for old code — reconstruct it from scratch, don't reuse or update it.
 Important thing is to find all this by yourself so you could answer the questions without asking the user.
 
 Then write a first draft of the design doc that is just enough to answer the questions below.
@@ -33,7 +34,9 @@ Design Doc: <design_doc_path>
 Context Map: <context_map_path>
 
 You are a cold reviewer. You have no history with this design and no stake in it.
-Read the feature design doc and the context map above. The repo itself is fair
+Read the feature design doc and the context map above. The context map is
+orientation — a fresh index of where things live, built for this run. Use it to
+find your way around; the repo is the source of truth. The repo itself is fair
 game — read any file you need. Do not modify anything.
 
 Your job is to find the issues that make this design WRONG or UNBUILDABLE, not
