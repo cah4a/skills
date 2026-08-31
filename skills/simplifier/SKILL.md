@@ -9,6 +9,9 @@ description: >-
 A smaller design exists. Before committing to a plan, walk every move below against it and name the moves that apply and
 what each one deletes. The plan is done when a move has shrunk it, or every move is ruled out for a stated reason.
 
+Label each finding **S1**, **S2**, … — one line per finding: the move, where it applies, what it deletes. The user picks
+which labels to apply; do not apply any finding without a pick.
+
 ## Requirements
 
 - **Delete it** — question the requirement itself; the cheapest code is none.
