@@ -6,10 +6,11 @@ description: >-
 
 # Simplifier
 
-A smaller design exists. Before committing to a plan, walk every move below against it and name the moves that apply and
-what each one deletes. The plan is done when a move has shrunk it, or every move is ruled out for a stated reason.
+A smaller design exists. Each move below is a lens: sweep it across the whole design and mark every site it bites and
+what dies there. Expect a move to bite at several sites, and a site to take several moves. The sweep is done when every
+lens has covered the whole design — its findings named, or the lens ruled out for a stated reason.
 
-Label each finding **S1**, **S2**, … — one line per finding: the move, where it applies, what it deletes. The user picks
+Label each finding **S1**, **S2**, … — one line per finding: the move, the site, what it deletes. The user picks
 which labels to apply; do not apply any finding without a pick.
 
 ## Requirements
