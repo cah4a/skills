@@ -1,17 +1,17 @@
 ---
 name: simplifier
 description: >-
-  Simplification expert. ALWAYS load this skill before committing to a design — planning a task, writing a spec, or choosing an approach, even when the shape seems obvious. Do not settle a plan without weighing the moves first. Also fires when the user asks "can this be simpler?", and is the list another skill hands a planning subagent.
+  Simplification expert. ALWAYS load this skill before committing to a design — planning a task, writing a spec, or choosing an approach, even when the shape seems obvious. Do not settle a plan without weighing the moves first. Also fires when the user asks "can this be simpler?".
 ---
 
 # Simplifier
 
-A smaller design exists. Each move below is a lens: sweep it across the whole design and mark every site it bites and
-what dies there. Expect a move to bite at several sites, and a site to take several moves. The sweep is done when every
-lens has covered the whole design — its findings named, or the lens ruled out for a stated reason.
+A smaller design exists. Weigh every move below against it. Surface only the moves that bite, ranked by what dies —
+one line each, labelled **S1**, **S2**, …: the move, the file and function, the code that goes. Lead with your pick.
+If nothing bites, say so in one line.
 
-Label each finding **S1**, **S2**, … — one line per finding: the move, the site, what it deletes. The user picks
-which labels to apply; do not apply any finding without a pick.
+Whoever briefed you picks — the user, or the agent that dispatched you. Put the list in your report. Take findings
+inside your brief and say which; apply none beyond it without a pick.
 
 ## Requirements
 
