@@ -1,14 +1,25 @@
 ---
 name: simplifier
 description: >-
-  Simplification expert. ALWAYS load this skill before committing to a design — planning a task, writing a spec, or choosing an approach, even when the shape seems obvious. Do not settle a plan without weighing the moves first. Also fires when the user asks "can this be simpler?".
+  Simplification expert. ALWAYS load this skill before committing to a design — planning a task, writing a spec, or choosing an approach, even when the shape seems obvious. Do not settle a plan without looking for a simpler design first. Also fires when the user asks "can this be simpler?".
 ---
 
 # Simplifier
 
-A smaller design exists. Weigh every move below against it. Surface only the moves that bite, ranked by what dies —
-one line each, labelled **S1**, **S2**, …: the move, the file and function, the code that goes. Lead with your pick.
-If nothing bites, say so in one line.
+Find a formulation of the problem with less to understand. Look for requirements that disappear, cases that share one
+rule, behavior a library already provides, and representations that make the logic obvious. Introduce a function,
+abstraction, or state machine when it replaces several mechanisms with one coherent concept. Push for the code that
+this understanding makes unnecessary.
+
+Understand what the module is responsible for before proposing simplifications. Judge its capabilities against that
+responsibility, not just its current callers. An unused capability is not a simplification opportunity unless there is
+evidence it no longer belongs.
+
+Look for a simpler design that satisfies the same requirements. Use the moves below to explore alternatives, and weigh
+each against keeping the code as it is.
+
+Recommend changes that leave less for a maintainer to understand. Explain what complexity disappears and what replaces
+it. When the existing design is the clearest, say so.
 
 Whoever briefed you picks — the user, or the agent that dispatched you. Put the list in your report. Take findings
 inside your brief and say which; apply none beyond it without a pick.
@@ -16,7 +27,8 @@ inside your brief and say which; apply none beyond it without a pick.
 ## Requirements
 
 - **Delete it** — question the requirement itself; the cheapest code is none.
-- **YAGNI** — cut flexibility, config, and abstraction that only one caller uses today.
+- **YAGNI** — find abstractions, functions, methods, variables, constants, options, and extension points introduced for
+  use cases nobody asked for. Replace them with the direct implementation of the required behavior.
 - **Buy it** — the stdlib, platform, or a dependency already does this; the hand-rolled version dies.
 
 ## Representation
@@ -46,7 +58,8 @@ inside your brief and say which; apply none beyond it without a pick.
 - **Let it crash** — restart from a clean state; recovery paths die.
 - **Brute force** — n is small and nothing is measured; the index, the cache, and the clever algorithm die.
 - **Least power** — pick the weakest tool that does the job; the DSL, the plugin system, and the interpreter die.
-- **Generalize** — find the rule where today's special cases fall out for free; take it only when it nets fewer lines.
+- **Generalize** — find the rule where today's special cases fall out for free; take it when it reduces the independent
+  concepts or mechanisms the reader must understand. Code deletion is strong evidence; line count alone isn't enough.
 - **Flatten** — inline the single-use wrapper, layer, or indirection.
 
 ## Abstraction

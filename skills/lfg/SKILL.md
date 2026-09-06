@@ -1,7 +1,8 @@
 ---
 name: lfg
 description: >-
-  Drive a coding task to completion by unfolding it into a series of subagents — dispatch one subagent per step briefed with the coder skill, hold a senior-engineer bar on what comes back, then decide the next step from there. Trigger whenever the user says "lfg" / "let's fucking go", wants a task driven end to end via subagents ("spawn agents to do this", "handle the rest"), or wants a multi-step implementation landed at merge quality while your own context stays clean.
+  Manually invoked end-to-end coding workflow that unfolds a task into subagent-implemented steps and holds the result to a senior-engineer bar.
+disable-model-invocation: true
 ---
 
 Take the task and unfold it into subagent-implemented work, driving relentlessly until it's done — and *good*. **You never write the implementation yourself.** Every step goes to a fresh subagent with a tight brief; you orchestrate and judge. Subagents are cheap and disposable — your context is the scarce resource, and it stays sharp only if it doesn't fill up with the details of every file they touched. That separation is the whole reason this works; collapse it and you're just a smart agent that ran out of room.
