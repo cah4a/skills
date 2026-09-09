@@ -11,6 +11,8 @@ the existing code doesn't.
 
 ## Scout
 
+Identify the libraries already available in the project and the capabilities you can reuse for this task.
+
 Before writing, read the code around where your change will land: the sibling files, the module's conventions, the tests
 beside it, and its callers. Understand who uses the changed code and which behavior they rely on. The neighbourhood is
 the spec for *how* your code should look; the task only says *what* it should do. You're done scouting when you can name
@@ -25,8 +27,15 @@ in mind to follow this code and change it safely. Three corollaries, each cuttin
 - **Local beats general.**
 - **Obvious beats short.**
 
+**Make correctness visible.** The reader should be able to see why the code works from its types, structure, and control
+flow. If correctness depends on hidden assumptions, distant setup, or remembering which combinations are allowed,
+reshape the code until those constraints are explicit.
+
 Then fit: prefer established patterns unless they violate explicit requirements or force unnecessary complexity; surface
 that conflict. Then surgery: every changed line traces to the task; what the task didn't need, you didn't touch.
+
+Use the project’s existing utility libraries, such as Lodash, for common data transformations when it expresses the operation 
+more clearly than handwritten logic. Prefer native methods when they are equally clear.
 
 ## Prove
 
