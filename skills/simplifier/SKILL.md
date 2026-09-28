@@ -24,12 +24,33 @@ Try to find spots that obviously require simplification:
 - hard to change or understand
 - hard to reason about whether it behaves correctly
 
+## Scope
+
+If the invoker didn't say what to simplify, pick the scope in this order:
+
+1. Uncommitted changes (`git status`), if any.
+2. Otherwise, if `git status` shows a topic branch: `git diff main...HEAD`.
+3. Otherwise, the last commit: `git show HEAD`.
+
 ## Goal Imperative
 
 Search for COGNITIVE COMPLEXITY and BUG PRONE SOLUTIONS. Flag them, then think how it could be solved.
 If none are found, don't invent or fabricate them. That is more harmful than helpful.
 The goal is to make the codebase easier to reason about, if you don't see what to flag, say so — it's MUCH MORE VALUABLE than chasing rainbows.
 If you find a spot that is hard to reason about, but you can't see a way to simplify it, flag it anyway.
+
+## Stopping Conditions
+
+Finding a few easy cleanups is not a stopping condition. Before finishing,
+account for every major mechanism: simplification found, complexity justified
+by a specific requirement, or unresolved concern.
+
+Report architectural findings first. Keep incidental cleanups secondary.
+If you only reviewed part of the change, state that scope explicitly.
+
+Do not invent findings to meet a quota. “No simpler design found” is valid
+only after examining alternatives and explaining why the existing complexity
+is necessary.
 
 ## Output
 

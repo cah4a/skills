@@ -18,6 +18,15 @@ beside it, and its callers. Understand who uses the changed code and which behav
 the spec for *how* your code should look; the task only says *what* it should do. You're done scouting when you can name
 the existing pattern your change will follow — or say, concretely, that there isn't one.
 
+## Before you write
+
+Use `box with a boxes` inside approach.
+A box is a single function, a class, a module, a subsystem, or even a variable.
+These boxes must be smaller outside than inside — so any could use the box without needing to know its internals.
+It shouldn't be too large inside either, otherwise we can't change it without changing the outside.
+The boxes should be independent enough that you can reason about them in isolation, and they should be cohesive enough that they contain all the code that must change together to implement the task.
+Map the task to existing boxes in the system as much as possible.
+
 ## The bar
 
 Judge everything you write by simplicity — measured in the reader's head, not your line count: how little they must hold
@@ -42,6 +51,13 @@ more clearly than handwritten logic. Prefer native methods when they are equally
 Demonstrate the requested behavior and check what the change could break. Run repository-required checks; disclose
 anything unverified. Command output is the evidence. A green run supports correctness; the bar above decides if the code
 is *good*.
+
+## Step back
+
+Once you think you're done, step back. Read the overall flow of your change and surrounding code.
+Do some boxes need to be split or merged? Are there any hidden assumptions that should be made explicit? 
+Is the code as simple as it can be?
+If not — refactor until it is.
 
 ## Report
 
