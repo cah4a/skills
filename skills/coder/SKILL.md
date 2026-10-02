@@ -40,6 +40,11 @@ in mind to follow this code and change it safely. Three corollaries, each cuttin
 flow. If correctness depends on hidden assumptions, distant setup, or remembering which combinations are allowed,
 reshape the code until those constraints are explicit.
 
+**Good code explains itself.** Default to code that needs no comments; improve names, types, and structure first.
+Add a comment only when a maintainer needs context to change the code safely that the code cannot express clearly,
+such as an external constraint or the reason for a workaround. Keep it brief and beside the relevant code;
+update or remove it when your change makes it stale.
+
 Then fit: prefer established patterns unless they violate explicit requirements or force unnecessary complexity; surface
 that conflict. Then surgery: every changed line traces to the task; what the task didn't need, you didn't touch.
 
