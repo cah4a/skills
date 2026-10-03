@@ -69,6 +69,8 @@ Let invoker decide how to act on each one.
 
 #### Representation
 
+- **Comment into code** — express a comment's meaning through names, types, or structure until the comment is redundant,
+  then remove it. Keep comments that carry essential context the code cannot express.
 - **Invariant** — find what is always true; every check it makes dead dies.
 - **Make illegal states unrepresentable** — encode the constraint in the type or schema so the invalid state cannot
   exist; its handling dies.
