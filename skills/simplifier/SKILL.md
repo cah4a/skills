@@ -2,6 +2,7 @@
 name: simplifier
 description: >-
   Simplification expert. ALWAYS load this skill before committing to a design — planning a task, writing a spec, or choosing an approach, even when the shape seems obvious. Do not settle a plan without looking for a simpler design first. Also fires when the user asks "can this be simpler?".
+disable-model-invocation: true
 ---
 
 # Simplifier
