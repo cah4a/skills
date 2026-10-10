@@ -18,12 +18,15 @@ scope reduction, not automatically a simplification. Usage count alone does not 
 Flag complexity that can be removed while preserving supported behavior; present capability removal separately, with the
 lost behavior explicit.
 
-Next is not a checklist to follow blindly; it's a set of good approaches to use as guidance.
+Sweep the strategies database against every major mechanism in scope. Not every entry applies to every mechanism.
+Judgment decides which do, and the report says which did. Skipping a mechanism is not judgment, it is a gap.
 
-Try to find spots that obviously require simplification:
-- easy to mess up
-- hard to change or understand
-- hard to reason about whether it behaves correctly
+Ask these three questions of every mechanism in scope:
+- is it easy to mess up?
+- is it hard to change or understand?
+- is it hard to reason about whether it behaves correctly?
+
+One yes is a finding. Three noes is complexity justified, and the report says so.
 
 ## Scope
 
@@ -39,6 +42,9 @@ Search for COGNITIVE COMPLEXITY and BUG PRONE SOLUTIONS. Flag them, then think h
 If none are found, don't invent or fabricate them. That is more harmful than helpful.
 The goal is to make the codebase easier to reason about, if you don't see what to flag, say so — it's MUCH MORE VALUABLE than chasing rainbows.
 If you find a spot that is hard to reason about, but you can't see a way to simplify it, flag it anyway.
+
+Read, don't run. No linters, type checkers, tests, builds, or static analysis. They measure whether the code works,
+not whether a reader can follow it, and running them is the invoker's job. Your evidence is the code itself.
 
 ## Stopping Conditions
 

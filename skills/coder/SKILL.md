@@ -4,66 +4,88 @@ description: >-
   Code-writing expert. ALWAYS invoke this skill when writing or changing code — implementing a feature, fixing a bug, refactoring, or a swap that feels too trivial to need it. Do not Edit, Write, or heredoc into a source file directly — invoke this skill first. Also the brief another skill hands a coding subagent.
 ---
 
-Make the chosen design easy for a maintainer to follow. Put related behavior together, make control and data flow
-apparent, and use the codebase's established vocabulary. Write code as if it had always been there. Find and reuse
-what the codebase already provides before adding an implementation. New code must earn its place by covering what
-the existing code doesn't.
+# Coder
+
+You are writing code that someone else will read, change, and keep correct long after you're gone. That is why the
+steps below are commitments, not preferences. Three of them end with something you write down in your reply: the lines
+before the first edit, the answers before reporting, and the report itself. A step with no written output did not
+happen, and you don't move past it without one.
+
+**The bar is simplicity, measured in the reader's head.** How little must a maintainer hold in mind to follow this
+code and change it safely? Boring beats clever. Local beats general. Obvious beats short. Every line you write is
+judged against this, not against your line count or how fast you got there.
 
 ## Scout
 
-Identify the libraries already available in the project and the capabilities you can reuse for this task.
+Do not edit before scouting. Code written without knowing its neighbourhood looks foreign the moment it lands, and
+every reader after you pays for that.
 
-Before writing, read the code around where your change will land: the sibling files, the module's conventions, the tests
-beside it, and its callers. Understand who uses the changed code and which behavior they rely on. The neighbourhood is
-the spec for *how* your code should look; the task only says *what* it should do. You're done scouting when you can name
-the existing pattern your change will follow — or say, concretely, that there isn't one.
+Read what surrounds the change. The sibling files, the module's conventions, the tests beside it, and every caller of
+what you'll touch. Find the libraries already in the project and the capabilities that already cover part of this task.
+Reuse beats new implementation. New code earns its place only by covering what the existing code doesn't.
 
-## Before you write
+## Boxes
 
-Use `box with a boxes` inside approach.
-A box is a single function, a class, a module, a subsystem, or even a variable.
-These boxes must be smaller outside than inside — so any could use the box without needing to know its internals.
-It shouldn't be too large inside either, otherwise we can't change it without changing the outside.
-The boxes should be independent enough that you can reason about them in isolation, and they should be cohesive enough that they contain all the code that must change together to implement the task.
-Map the task to existing boxes in the system as much as possible.
+Think in boxes. A box is a function, a class, a module, a subsystem, even a variable. A good box is smaller outside
+than inside, so a caller uses it without knowing its internals. It is not so large inside that changing it means
+changing the outside. Boxes are independent enough to reason about alone, and cohesive enough to hold everything that
+must change together for this task.
 
-## The bar
+Map the task onto the boxes the system already has. Add a new box only when no existing one can take the change
+without growing past its outside.
 
-Judge everything you write by simplicity — measured in the reader's head, not your line count: how little they must hold
-in mind to follow this code and change it safely. Three corollaries, each cutting against instinct:
+Scout and Boxes are done when you can write these three lines. Write them in your reply before the first edit:
 
-- **Boring beats clever.**
-- **Local beats general.**
-- **Obvious beats short.**
+- **Pattern.** The existing pattern this change follows, by file or function name. Or "none, because ..." with the
+  concrete reason.
+- **Boxes.** Which existing functions, modules, or classes absorb the change, and what, if anything, is new.
+- **Reuse.** What the codebase or its libraries already provide for this task, or "nothing applies".
 
-**Make correctness visible.** The reader should be able to see why the code works from its types, structure, and control
-flow. If correctness depends on hidden assumptions, distant setup, or remembering which combinations are allowed,
-reshape the code until those constraints are explicit.
+Changing the mapping mid-task is fine, but say so in the report.
 
-**Good code explains itself.** Default to code that needs no comments; improve names, types, and structure first.
-Add a comment only when a maintainer needs context to change the code safely that the code cannot express clearly,
-such as an external constraint or the reason for a workaround. Keep it brief and beside the relevant code;
-update or remove it when your change makes it stale.
+## Write
 
-Then fit: prefer established patterns unless they violate explicit requirements or force unnecessary complexity; surface
-that conflict. Then surgery: every changed line traces to the task; what the task didn't need, you didn't touch.
+Hold every line to the bar:
 
-Use the project’s existing utility libraries, such as Lodash, for common data transformations when it expresses the operation 
-more clearly than handwritten logic. Prefer native methods when they are equally clear.
+- **Correctness stays visible.** A reader sees why the code works from its types, structure, and control flow. If
+  correctness depends on a hidden assumption, distant setup, or remembering which combinations are allowed, reshape the
+  code until that constraint is explicit.
+- **Code explains itself.** Improve names, types, and structure before reaching for a comment. A comment is for context
+  the code cannot carry, such as an external constraint or the reason for a workaround. Keep it short and beside the
+  code. Update or delete any comment your change makes stale.
+- **Follow the pattern you named.** Deviate only when the established pattern violates an explicit requirement or forces
+  unnecessary complexity. A deviation is never a silent choice. It goes in the report with its reason.
+- **Use what's there.** Reach for the project's utility libraries, Lodash and the like, when they express a common
+  transformation more clearly than handwritten logic. Prefer native methods when they are equally clear.
+- **Every changed line traces to the task.** What the task didn't need, you didn't touch. Drive-by cleanup goes in the
+  report as a suggestion, not in the diff.
 
 ## Prove
 
-Demonstrate the requested behavior and check what the change could break. Run repository-required checks; disclose
-anything unverified. Command output is the evidence. A green run supports correctness; the bar above decides if the code
-is *good*.
+A change without evidence is a guess. Demonstrate the requested behavior, then check what the change could break. The
+callers you found in Scout are the first suspects. Run the repository's required checks.
+
+Command output is the evidence. A description of what you ran is not. Anything you could not run or verify goes in the
+report as unverified. Leaving it out is not an option.
 
 ## Step back
 
-Once you think you're done, step back. Read the overall flow of your change and surrounding code.
-Do some boxes need to be split or merged? Are there any hidden assumptions that should be made explicit? 
-Is the code as simple as it can be?
-If not — refactor until it is.
+Before reporting, reread the whole change together with the surrounding code, as a maintainer who has never seen it.
+Answer each question in writing:
+
+- Does any box need splitting or merging?
+- Is any assumption still hidden that should be explicit?
+- Is this as simple as it can be?
+
+"Yes" to either of the first two, or "no" to the last, means you are not done. Refactor and prove again. Skipping this
+step is how reasonable-looking code ships with a shape nobody wanted.
 
 ## Report
 
-Report what changed, verification evidence, and decisions or limitations that affect review.
+Use these fields, every time. Write "none" where there is nothing, so a gap is visible instead of silent.
+
+- **Changed.** What and where.
+- **Pattern followed.** From Scout. Any deviation and its reason.
+- **Evidence.** Commands run and their result. Unverified items.
+- **Decisions.** Judgment calls that affect review: new boxes, drive-by suggestions, trade-offs.
+- **Step back.** The three answers.
