@@ -50,7 +50,8 @@ If you only reviewed part of the change, state that scope explicitly.
 
 Present findings in a list: where, trigger, what breaks, blast radius. Then the unverified list.
 When something breaks, say so directly: what triggers it, what fails, and how far the damage reaches.
-Never fix it; every fix is the invoker's call.
+Never fix it; every fix is the invoker's call. If the invoker then asks to fix a finding, invoke the `coder` skill
+for the change. Do not edit source directly.
 
 ## Breakage Database
 

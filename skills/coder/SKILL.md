@@ -50,9 +50,9 @@ Hold every line to the bar:
 - **Correctness stays visible.** A reader sees why the code works from its types, structure, and control flow. If
   correctness depends on a hidden assumption, distant setup, or remembering which combinations are allowed, reshape the
   code until that constraint is explicit.
-- **Code explains itself.** Improve names, types, and structure before reaching for a comment. A comment is for context
-  the code cannot carry, such as an external constraint or the reason for a workaround. Keep it short and beside the
-  code. Update or delete any comment your change makes stale.
+- **Code explains itself.** Code with comments is a failure. Make asserts, types, and names until maintainer understands the code without reading the comment.
+  The only possible exception is a comment naming the CONSTRAINT that forced a LARGE CHUNK OF CODE into this shape, or
+  the TRADE-OFF it was chosen over. Never the user's request, never a summary of what the code does.
 - **Follow the pattern you named.** Deviate only when the established pattern violates an explicit requirement or forces
   unnecessary complexity. A deviation is never a silent choice. It goes in the report with its reason.
 - **Use what's there.** Reach for the project's utility libraries, Lodash and the like, when they express a common

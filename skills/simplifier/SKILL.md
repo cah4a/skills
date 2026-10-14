@@ -62,7 +62,8 @@ is necessary.
 ## Output
 
 Present your findings in a list, why it's complex or hard to reason about, and a recommended strategy to simplify it.
-Let invoker decide how to act on each one.
+Let invoker decide how to act on each one. If the invoker then asks to apply a finding, invoke the `coder` skill
+for the change. Do not edit source directly.
 
 ## Simplification Strategies Database
 
